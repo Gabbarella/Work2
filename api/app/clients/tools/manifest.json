@@ -1,5 +1,13 @@
 [
   {
+    "name": "Agent Coordinator",
+    "pluginKey": "agent-coordinator",
+    "description": "A structured multi step conversational flow within an LLM chat application based on given chat Flow.';    ",
+    "icon": "/assets/web-browser.svg",
+    "isAuthRequired": "false",
+    "authConfig": []
+  },
+  {
     "name": "Traversaal",
     "pluginKey": "traversaal_search",
     "description": "Traversaal is a robust search API tailored for LLM Agents. Get an API key here: https://api.traversaal.ai",

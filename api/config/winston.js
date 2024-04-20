@@ -4,6 +4,7 @@ require('winston-daily-rotate-file');
 const { redactFormat, redactMessage, debugTraverse } = require('./parsers');
 
 const logDir = path.join(__dirname, '..', 'logs');
+const basePath = path.resolve(__dirname, '..');
 
 const { NODE_ENV, DEBUG_LOGGING = true, DEBUG_CONSOLE = false, CONSOLE_JSON = false } = process.env;
 
@@ -26,6 +27,35 @@ const levels = {
   silly: 7,
 };
 
+function wrapLogMethod(originalMethod) {
+  return function (message, ...args) {
+    const err = new Error();
+    const stack = err.stack.split('\n');
+    let relevantStack = stack[2] || stack[1]; // Fallback to an earlier stack if needed
+    // Adjusted regex to optionally match function calls in parentheses
+    let match = relevantStack
+      ? /at\s+(?:.*?\s+)?\(?([^)]+):(\d+):(\d+)\)?/.exec(relevantStack)
+      : null;
+
+    if (!match) {
+      // Try a broader regex if the first one fails
+      match = relevantStack ? /at\s+.*?\((.*?):(\d+):(\d+)\)/.exec(relevantStack) : null;
+    }
+
+    if (match) {
+      // Calculate the relative path based on the basePath you define
+      const relativePath = path.relative(basePath, match[1]);
+      message = `[./api/${relativePath}:${match[2]}] ${message}`;
+    } else {
+      // Log the entire stack if no match is found (for debugging purposes of this mechanism)
+      console.log('Failed to parse stack:', err.stack);
+      message = `[can't detect location] ${message}`;
+    }
+
+    originalMethod.call(this, message, ...args);
+  };
+}
+
 winston.addColors({
   info: 'green', // fontStyle color
   warn: 'italic yellow',
@@ -45,6 +75,21 @@ const fileFormat = winston.format.combine(
   winston.format.errors({ stack: true }),
   winston.format.splat(),
   // redactErrors(),
+);
+
+const consoleFormat = winston.format.combine(
+  redactFormat(),
+  winston.format.colorize({ all: true }),
+  winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+  // redactErrors(),
+  winston.format.printf((info) => {
+    const message = `${info.timestamp} ${info.level}: ${info.message}`;
+    if (info.level.includes('error')) {
+      return redactMessage(message);
+    }
+
+    return message;
+  }),
 );
 
 const transports = [
@@ -92,38 +137,27 @@ if (
   );
 }
 
-const consoleFormat = winston.format.combine(
-  redactFormat(),
-  winston.format.colorize({ all: true }),
-  winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-  // redactErrors(),
-  winston.format.printf((info) => {
-    const message = `${info.timestamp} ${info.level}: ${info.message}`;
-    if (info.level.includes('error')) {
-      return redactMessage(message);
-    }
-
-    return message;
-  }),
-);
-
 if (useDebugConsole) {
   transports.push(
     new winston.transports.Console({
-      level: 'debug',
-      format: useConsoleJson
-        ? winston.format.combine(fileFormat, debugTraverse, winston.format.json())
-        : winston.format.combine(fileFormat, debugTraverse),
+      level: 'debug', // Use 'debug' level for more detailed logging
+      format: consoleFormat,
     }),
   );
 } else if (useConsoleJson) {
+  // If console JSON is used, create two separate console transports
   transports.push(
+    new winston.transports.Console({
+      level: 'debug',
+      format: winston.format.combine(fileFormat, debugTraverse, winston.format.json()),
+    }),
     new winston.transports.Console({
       level: 'info',
       format: winston.format.combine(fileFormat, winston.format.json()),
     }),
   );
 } else {
+  // Default to a basic info-level logging if no specific features are enabled
   transports.push(
     new winston.transports.Console({
       level: 'info',
@@ -136,6 +170,14 @@ const logger = winston.createLogger({
   level: level(),
   levels,
   transports,
+});
+
+// Wrap all logger methods to include file and line numbers
+Object.keys(levels).forEach((level) => {
+  const originalMethod = logger[level];
+  if (typeof originalMethod === 'function') {
+    logger[level] = wrapLogMethod(originalMethod.bind(logger), level);
+  }
 });
 
 module.exports = logger;
