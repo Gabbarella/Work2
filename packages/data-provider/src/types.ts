@@ -226,6 +226,7 @@ export type TStartupConfig = {
   showBirthdayIcon: boolean;
   helpAndFaqURL: string;
   customFooter?: string;
+  analyticsGtmId?: string;
 };
 
 export type TRefreshTokenResponse = {
