@@ -25,7 +25,11 @@ function RequestPasswordReset() {
   const onSubmit = (data: TRequestPasswordReset) => {
     requestPasswordReset.mutate(data, {
       onSuccess: (data: TRequestPasswordResetResponse) => {
-        console.log('emailEnabled: ', config.data?.emailEnabled);
+        if (data.link === 'noUserFound') {
+          setResetLink('noUserFound');
+          return;
+        }
+
         if (!config.data?.emailEnabled) {
           setResetLink(data.link);
         }
@@ -40,25 +44,34 @@ function RequestPasswordReset() {
   };
 
   useEffect(() => {
-    if (requestPasswordReset.isSuccess) {
-      if (config.data?.emailEnabled) {
-        setHeaderText(localize('com_auth_reset_password_link_sent'));
-        setBodyText(localize('com_auth_reset_password_email_sent'));
-      } else {
-        setHeaderText(localize('com_auth_reset_password'));
-        setBodyText(
-          <span>
-            {localize('com_auth_click')}{' '}
-            <a className="font-medium text-green-500 hover:underline" href={resetLink}>
-              {localize('com_auth_here')}
-            </a>{' '}
-            {localize('com_auth_to_reset_your_password')}
-          </span>,
-        );
-      }
-    } else {
+    if (!requestPasswordReset.isSuccess) {
       setHeaderText(localize('com_auth_reset_password'));
       setBodyText(undefined);
+      return;
+    }
+
+    if (config.data?.emailEnabled) {
+      setHeaderText(localize('com_auth_reset_password_link_sent'));
+      setBodyText(localize('com_auth_reset_password_email_sent'));
+      return;
+    }
+
+    if (resetLink === 'noUserFound') {
+      setRequestError(true);
+      return;
+    }
+
+    if (resetLink) {
+      setHeaderText(localize('com_auth_reset_password'));
+      setBodyText(
+        <span>
+          {localize('com_auth_click')}{' '}
+          <a className="font-medium text-green-500 hover:underline" href={resetLink}>
+            {localize('com_auth_here')}
+          </a>{' '}
+          {localize('com_auth_to_reset_your_password')}
+        </span>,
+      );
     }
   }, [requestPasswordReset.isSuccess, config.data?.emailEnabled, resetLink, localize]);
 

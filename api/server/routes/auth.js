@@ -14,6 +14,7 @@ const {
   requireJwtAuth,
   requireLocalAuth,
   validateRegistration,
+  validatePasswordReset,
 } = require('../middleware');
 
 const router = express.Router();
@@ -23,7 +24,12 @@ router.post('/logout', requireJwtAuth, logoutController);
 router.post('/login', loginLimiter, checkBan, requireLocalAuth, loginController);
 router.post('/refresh', refreshController);
 router.post('/register', registerLimiter, checkBan, validateRegistration, registrationController);
-router.post('/requestPasswordReset', resetPasswordRequestController);
-router.post('/resetPassword', resetPasswordController);
+router.post(
+  '/requestPasswordReset',
+  checkBan,
+  validatePasswordReset,
+  resetPasswordRequestController,
+);
+router.post('/resetPassword', checkBan, validatePasswordReset, resetPasswordController);
 
 module.exports = router;

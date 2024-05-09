@@ -121,7 +121,7 @@ const registerUser = async (user) => {
 const requestPasswordReset = async (email) => {
   const user = await User.findOne({ email }).lean();
   if (!user) {
-    return new Error('Email does not exist');
+    return { link: 'noUserFound' };
   }
 
   let token = await Token.findOne({ userId: user._id });

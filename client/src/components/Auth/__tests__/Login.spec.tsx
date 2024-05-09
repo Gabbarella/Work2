@@ -27,7 +27,7 @@ const setup = ({
       user: {},
     },
   },
-  useGetStartupCongfigReturnValue = {
+  useGetStartupConfigReturnValue = {
     isLoading: false,
     isError: false,
     data: {
@@ -42,6 +42,7 @@ const setup = ({
       registrationEnabled: true,
       emailLoginEnabled: true,
       socialLoginEnabled: true,
+      passwordResetEnabled: true,
       serverDomain: 'mock-server',
     },
   },
@@ -57,7 +58,7 @@ const setup = ({
   const mockUseGetStartupConfig = jest
     .spyOn(mockDataProvider, 'useGetStartupConfig')
     //@ts-ignore - we don't need all parameters of the QueryObserverSuccessResult
-    .mockReturnValue(useGetStartupCongfigReturnValue);
+    .mockReturnValue(useGetStartupConfigReturnValue);
   const mockUseRefreshTokenMutation = jest
     .spyOn(mockDataProvider, 'useRefreshTokenMutation')
     //@ts-ignore - we don't need all parameters of the QueryObserverSuccessResult

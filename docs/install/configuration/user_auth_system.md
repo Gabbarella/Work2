@@ -26,7 +26,8 @@ Here's an overview of the general configuration, located in the `.env` file at t
   - `ALLOW_REGISTRATION`: Email registration of new users. Set to `true` or `false` to enable or disable Email registration.
   - `ALLOW_SOCIAL_LOGIN`: Allow users to connect to LibreChat with various social networks, see below. Set to `true` or `false` to enable or disable.
   - `ALLOW_SOCIAL_REGISTRATION`: Enable or disable registration of new user using various social network. Set to `true` or `false` to enable or disable.
-
+    - `ALLOW_PASSWORD_RESET`: Enable or disable password reset. Set to `true` or `false` to enable or disable.
+ 
 > **Note:** OpenID does not support the ability to disable only registration.
 
 >> **Quick Tip:** Even with registration disabled, add users directly to the database using `npm run create-user`. If you can't get npm to work, try `sudo docker exec -ti LibreChat sh` first to "ssh" into the container.
@@ -39,6 +40,7 @@ ALLOW_EMAIL_LOGIN=true
 ALLOW_REGISTRATION=true       
 ALLOW_SOCIAL_LOGIN=false
 ALLOW_SOCIAL_REGISTRATION=false
+ALLOW_PASSWORD_RESET=false
 ```
 
 ### Session Expiry and Refresh Token

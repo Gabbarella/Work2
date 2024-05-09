@@ -25,6 +25,7 @@ afterEach(() => {
   delete process.env.DOMAIN_SERVER;
   delete process.env.ALLOW_REGISTRATION;
   delete process.env.ALLOW_SOCIAL_LOGIN;
+  delete process.env.ALLOW_PASSWORD_RESET;
 });
 
 //TODO: This works/passes locally but http request tests fail with 404 in CI. Need to figure out why.
@@ -50,6 +51,7 @@ describe.skip('GET /', () => {
     process.env.DOMAIN_SERVER = 'http://test-server.com';
     process.env.ALLOW_REGISTRATION = 'true';
     process.env.ALLOW_SOCIAL_LOGIN = 'true';
+    process.env.ALLOW_PASSWORD_RESET = 'true';
 
     const response = await request(app).get('/');
 
@@ -67,6 +69,7 @@ describe.skip('GET /', () => {
       serverDomain: 'http://test-server.com',
       emailLoginEnabled: 'true',
       registrationEnabled: 'true',
+      passwordResetEnabled: 'true',
       socialLoginEnabled: 'true',
     });
   });
