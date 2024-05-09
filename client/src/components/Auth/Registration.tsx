@@ -12,6 +12,7 @@ const Registration: React.FC = () => {
   const navigate = useNavigate();
   const { data: startupConfig } = useGetStartupConfig();
   const localize = useLocalize();
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   const {
     register,
@@ -28,7 +29,7 @@ const Registration: React.FC = () => {
   const onRegisterUserFormSubmit = async (data: TRegisterUser) => {
     try {
       await registerUser.mutateAsync(data);
-      navigate('/c/new');
+      setRegistrationSuccess(true);
     } catch (error) {
       setError(true);
       //@ts-ignore - error is of type unknown
@@ -147,6 +148,31 @@ const Registration: React.FC = () => {
     ),
   };
 
+  const privacyPolicy = startupConfig.interface?.privacyPolicy;
+  const termsOfService = startupConfig.interface?.termsOfService;
+
+  const privacyPolicyRender = privacyPolicy?.externalUrl && (
+    <a
+      className="text-xs font-medium text-green-500"
+      href={privacyPolicy.externalUrl}
+      target={privacyPolicy.openNewTab ? '_blank' : undefined}
+      rel="noreferrer"
+    >
+      {localize('com_ui_privacy_policy')}
+    </a>
+  );
+
+  const termsOfServiceRender = termsOfService?.externalUrl && (
+    <a
+      className="text-xs font-medium text-green-500"
+      href={termsOfService.externalUrl}
+      target={termsOfService.openNewTab ? '_blank' : undefined}
+      rel="noreferrer"
+    >
+      {localize('com_ui_terms_of_service')}
+    </a>
+  );
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 dark:bg-gray-900 sm:pt-0">
       <div className="absolute bottom-0 left-0 m-4">
@@ -159,6 +185,14 @@ const Registration: React.FC = () => {
         >
           {localize('com_auth_create_account')}
         </h1>
+        {registrationSuccess && (
+          <div
+            className="rounded-md border border-green-500 bg-green-500/10 px-3 py-2 text-sm text-gray-600 dark:text-gray-200"
+            role="alert"
+          >
+            {localize('com_auth_registration_success')}
+          </div>
+        )}
         {error && (
           <div
             className="rounded-md border border-red-500 bg-red-500/10 px-3 py-2 text-sm text-gray-600 dark:text-gray-200"
@@ -258,6 +292,13 @@ const Registration: React.FC = () => {
             </div>
           </>
         )}
+      </div>
+      <div className="flex justify-center gap-4 align-middle">
+        {privacyPolicyRender}
+        {privacyPolicyRender && termsOfServiceRender && (
+          <div className="border-r-[1px] border-gray-300" />
+        )}
+        {termsOfServiceRender}
       </div>
     </div>
   );
