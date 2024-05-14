@@ -10,7 +10,7 @@ const {
 const { storage, importFileFilter } = require('~/server/routes/files/multer');
 const requireJwtAuth = require('~/server/middleware/requireJwtAuth');
 const { forkConversation } = require('~/server/utils/import/fork');
-const { createImportLimiters } = require('~/server/middleware');
+const { createTransferLimiters } = require('~/server/middleware');
 const jobScheduler = require('~/server/utils/jobScheduler');
 const getLogStores = require('~/cache/getLogStores');
 const { sleep } = require('~/server/utils');
@@ -118,7 +118,7 @@ router.post('/update', async (req, res) => {
   }
 });
 
-const { importIpLimiter, importUserLimiter } = createImportLimiters();
+const { transferIpLimiter, transferUserLimiter } = createTransferLimiters();
 const upload = multer({ storage: storage, fileFilter: importFileFilter });
 
 /**
@@ -129,8 +129,8 @@ const upload = multer({ storage: storage, fileFilter: importFileFilter });
  */
 router.post(
   '/import',
-  importIpLimiter,
-  importUserLimiter,
+  transferIpLimiter,
+  transferUserLimiter,
   upload.single('file'),
   async (req, res) => {
     try {
@@ -173,8 +173,8 @@ router.post('/fork', async (req, res) => {
     res.status(500).send('Error forking conversation');
   }
 });
-//router.post('/export', importIpLimiter, importUserLimiter, async (req, res) => {
-router.post('/export', async (req, res) => {
+router.post('/export', transferIpLimiter, transferUserLimiter, async (req, res) => {
+  //router.post('/export', async (req, res) => {
   try {
     const job = await jobScheduler.now(EXPORT_CONVERSATION_JOB_NAME, '', req.user.id);
     res.status(200).json({ message: 'Export started', jobId: job.id });

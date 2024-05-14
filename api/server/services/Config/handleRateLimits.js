@@ -17,12 +17,12 @@ const handleRateLimits = (rateLimits) => {
   }
 
   if (conversationsImport) {
-    process.env.IMPORT_IP_MAX = conversationsImport.ipMax ?? process.env.IMPORT_IP_MAX;
-    process.env.IMPORT_IP_WINDOW =
-      conversationsImport.ipWindowInMinutes ?? process.env.IMPORT_IP_WINDOW;
-    process.env.IMPORT_USER_MAX = conversationsImport.userMax ?? process.env.IMPORT_USER_MAX;
-    process.env.IMPORT_USER_WINDOW =
-      conversationsImport.userWindowInMinutes ?? process.env.IMPORT_USER_WINDOW;
+    process.env.TRANSFER_IP_MAX = conversationsImport.ipMax ?? process.env.TRANSFER_IP_MAX;
+    process.env.TRANSFER_IP_WINDOW =
+      conversationsImport.ipWindowInMinutes ?? process.env.TRANSFER_IP_WINDOW;
+    process.env.TRANSFER_USER_MAX = conversationsImport.userMax ?? process.env.TRANSFER_USER_MAX;
+    process.env.TRANSFER_USER_WINDOW =
+      conversationsImport.userWindowInMinutes ?? process.env.TRANSFER_USER_WINDOW;
   }
 };
 
