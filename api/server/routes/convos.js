@@ -174,7 +174,6 @@ router.post('/fork', async (req, res) => {
   }
 });
 router.post('/export', transferIpLimiter, transferUserLimiter, async (req, res) => {
-  //router.post('/export', async (req, res) => {
   try {
     const job = await jobScheduler.now(EXPORT_CONVERSATION_JOB_NAME, '', req.user.id);
     res.status(200).json({ message: 'Export started', jobId: job.id });
@@ -184,7 +183,6 @@ router.post('/export', transferIpLimiter, transferUserLimiter, async (req, res) 
   }
 });
 
-// put this in a function
 const jobStatusHandler = async (req, res) => {
   try {
     const { jobId } = req.params;

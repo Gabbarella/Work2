@@ -40,47 +40,58 @@ const importConversationJob = async (job, done) => {
   }
 };
 
-async function createAndDeleteTempFile(content, delay, jobId) {
+/**
+ * Create a temporary file and delete it after a delay.
+ * @param {object} content - The content to write to the file.
+ * @param {number} delay - The delay in milliseconds to delete the file.
+ * @param {string} job - The job object.
+ * @returns {Promise<string>} The temporary file path.
+ */
+async function createAndDeleteTempFile(content, delay, job) {
+  const { requestUserId } = job.attrs.data;
   const tempDir = os.tmpdir();
-  const tempFilePath = path.join(tempDir, `export-${jobId}`);
-
+  const tempFilePath = path.join(tempDir, `export-${job.attrs._id}`);
   try {
-    // Write content to the temporary file using fs.promises API
     await fs.writeFile(tempFilePath, JSON.stringify(content));
-    console.log(`Temporary file created at: ${tempFilePath}`);
-
-    // Schedule the deletion of the temporary file
+    logger.debug(`user: ${requestUserId} | Created temporary file at: ${tempFilePath}`);
     setTimeout(async () => {
       try {
-        // Delete the file using fs.promises API
         await fs.unlink(tempFilePath);
-        console.log(`Temporary file deleted: ${tempFilePath}`);
+        logger.debug(
+          `user: ${requestUserId} | Automatically deleted temporary file at: ${tempFilePath}`,
+        );
       } catch (error) {
-        console.error('Error deleting the temporary file:', error);
+        logger.error(
+          `user: ${requestUserId} | Failed to automatically delete temporary file at: ${tempFilePath}`,
+          error,
+        );
       }
     }, delay);
-
     return tempFilePath;
   } catch (error) {
-    console.error('Error handling the temporary file:', error);
+    logger.error(
+      `user: ${requestUserId} | Error handling the temporary file: ${tempFilePath}`,
+      error,
+    );
   }
 }
 
-// Define the export job function
+/**
+ * Job definition for exporting all conversations.
+ * @param {import('agenda').Job} job - The job object.
+ * @param {Function} done - The done function.
+ */
 const exportConversationJob = async (job, done) => {
   const { requestUserId } = job.attrs.data;
   try {
     const convos = await getAllConvos(requestUserId);
-    //const content = req.file.buffer.toString();
-    //const job = await jobScheduler.now(EXPORT_CONVERSATION_JOB_NAME, content, req.user.id);
-
-    logger.info('Convos: ' + JSON.stringify(convos));
 
     for (let i = 0; i < convos.conversations.length; i++) {
       const conversationId = convos.conversations[i].conversationId;
       convos.conversations[i].messages = await getMessages({ conversationId });
     }
-    createAndDeleteTempFile(convos, 5 * 60 * 1000, job.attrs._id);
+    // Temporary file will be deleted from server after 5 minutes
+    createAndDeleteTempFile(convos, 5 * 60 * 1000, job);
     done();
   } catch (error) {
     logger.error('Failed to export conversation: ', error);
@@ -88,7 +99,7 @@ const exportConversationJob = async (job, done) => {
   }
 };
 
-// Call the jobScheduler.define function at startup
+// Call the jobScheduler.define functions at startup
 jobScheduler.define(IMPORT_CONVERSATION_JOB_NAME, importConversationJob);
 jobScheduler.define(EXPORT_CONVERSATION_JOB_NAME, exportConversationJob);
 
