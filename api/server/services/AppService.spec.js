@@ -348,29 +348,29 @@ describe('AppService', () => {
     expect(process.env.FILE_UPLOAD_USER_WINDOW).toEqual('initialUserWindow');
   });
 
-  it('should not modify IMPORT environment variables without rate limits', async () => {
+  it('should not modify TRANSFER environment variables without rate limits', async () => {
     // Setup initial environment variables
-    process.env.IMPORT_IP_MAX = '10';
-    process.env.IMPORT_IP_WINDOW = '15';
-    process.env.IMPORT_USER_MAX = '5';
-    process.env.IMPORT_USER_WINDOW = '20';
+    process.env.TRANSFER_IP_MAX = '10';
+    process.env.TRANSFER_IP_WINDOW = '15';
+    process.env.TRANSFER_USER_MAX = '5';
+    process.env.TRANSFER_USER_WINDOW = '20';
 
     const initialEnv = { ...process.env };
 
     await AppService(app);
 
     // Expect environment variables to remain unchanged
-    expect(process.env.IMPORT_IP_MAX).toEqual(initialEnv.IMPORT_IP_MAX);
-    expect(process.env.IMPORT_IP_WINDOW).toEqual(initialEnv.IMPORT_IP_WINDOW);
-    expect(process.env.IMPORT_USER_MAX).toEqual(initialEnv.IMPORT_USER_MAX);
-    expect(process.env.IMPORT_USER_WINDOW).toEqual(initialEnv.IMPORT_USER_WINDOW);
+    expect(process.env.TRANSFER_IP_MAX).toEqual(initialEnv.TRANSFER_IP_MAX);
+    expect(process.env.TRANSFER_IP_WINDOW).toEqual(initialEnv.TRANSFER_IP_WINDOW);
+    expect(process.env.TRANSFER_USER_MAX).toEqual(initialEnv.TRANSFER_USER_MAX);
+    expect(process.env.TRANSFER_USER_WINDOW).toEqual(initialEnv.TRANSFER_USER_WINDOW);
   });
 
-  it('should correctly set IMPORT environment variables based on rate limits', async () => {
+  it('should correctly set TRANSFER environment variables based on rate limits', async () => {
     // Define and mock a custom configuration with rate limits
-    const importLimitsConfig = {
+    const transferLimitsConfig = {
       rateLimits: {
-        conversationsImport: {
+        conversationsTransfer: {
           ipMax: '150',
           ipWindowInMinutes: '60',
           userMax: '50',
@@ -380,24 +380,24 @@ describe('AppService', () => {
     };
 
     require('./Config/loadCustomConfig').mockImplementationOnce(() =>
-      Promise.resolve(importLimitsConfig),
+      Promise.resolve(transferLimitsConfig),
     );
 
     await AppService(app);
 
     // Verify that process.env has been updated according to the rate limits config
-    expect(process.env.IMPORT_IP_MAX).toEqual('150');
-    expect(process.env.IMPORT_IP_WINDOW).toEqual('60');
-    expect(process.env.IMPORT_USER_MAX).toEqual('50');
-    expect(process.env.IMPORT_USER_WINDOW).toEqual('30');
+    expect(process.env.TRANSFER_IP_MAX).toEqual('150');
+    expect(process.env.TRANSFER_IP_WINDOW).toEqual('60');
+    expect(process.env.TRANSFER_USER_MAX).toEqual('50');
+    expect(process.env.TRANSFER_USER_WINDOW).toEqual('30');
   });
 
-  it('should fallback to default IMPORT environment variables when rate limits are unspecified', async () => {
+  it('should fallback to default TRANSFER environment variables when rate limits are unspecified', async () => {
     // Setup initial environment variables to non-default values
-    process.env.IMPORT_IP_MAX = 'initialMax';
-    process.env.IMPORT_IP_WINDOW = 'initialWindow';
-    process.env.IMPORT_USER_MAX = 'initialUserMax';
-    process.env.IMPORT_USER_WINDOW = 'initialUserWindow';
+    process.env.TRANSFER_IP_MAX = 'initialMax';
+    process.env.TRANSFER_IP_WINDOW = 'initialWindow';
+    process.env.TRANSFER_USER_MAX = 'initialUserMax';
+    process.env.TRANSFER_USER_WINDOW = 'initialUserWindow';
 
     // Mock a custom configuration without specific rate limits
     require('./Config/loadCustomConfig').mockImplementationOnce(() => Promise.resolve({}));
@@ -405,10 +405,10 @@ describe('AppService', () => {
     await AppService(app);
 
     // Verify that process.env falls back to the initial values
-    expect(process.env.IMPORT_IP_MAX).toEqual('initialMax');
-    expect(process.env.IMPORT_IP_WINDOW).toEqual('initialWindow');
-    expect(process.env.IMPORT_USER_MAX).toEqual('initialUserMax');
-    expect(process.env.IMPORT_USER_WINDOW).toEqual('initialUserWindow');
+    expect(process.env.TRANSFER_IP_MAX).toEqual('initialMax');
+    expect(process.env.TRANSFER_IP_WINDOW).toEqual('initialWindow');
+    expect(process.env.TRANSFER_USER_MAX).toEqual('initialUserMax');
+    expect(process.env.TRANSFER_USER_WINDOW).toEqual('initialUserWindow');
   });
 });
 

@@ -10,6 +10,7 @@ import { useConversation, useConversations, useOnClickOutside } from '~/hooks';
 import ImportConversations from './ImportConversations';
 import { ClearChatsButton } from './ClearChats';
 import DangerButton from '../DangerButton';
+import ExportConversations from './ExportConversations';
 
 export const RevokeKeysButton = ({
   showText = true,
@@ -107,10 +108,12 @@ function Data() {
         <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
           <ImportConversations />
         </div>
+        <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-700">
+          <ExportConversations />
+        </div>
         <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
           <RevokeKeysButton all={true} />
         </div>
-
         <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
           <ClearChatsButton
             confirmClear={confirmClearConvos}
