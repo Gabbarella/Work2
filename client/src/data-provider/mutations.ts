@@ -431,6 +431,50 @@ export const useUploadAvatarMutation = (
   });
 };
 
+/* Speech to text */
+export const useSpeechToTextMutation = (
+  options?: t.SpeechToTextOptions,
+): UseMutationResult<
+  t.SpeechToTextResponse, // response data
+  unknown, // error
+  FormData, // request
+  unknown // context
+> => {
+  return useMutation([MutationKeys.speechToText], {
+    mutationFn: (variables: FormData) => dataService.speechToText(variables),
+    ...(options || {}),
+  });
+};
+
+/* Text to speech */
+export const useTextToSpeechMutation = (
+  options?: t.TextToSpeechOptions,
+): UseMutationResult<
+  t.TextToSpeechResponse, // response data
+  unknown, // error
+  FormData, // request
+  unknown // context
+> => {
+  return useMutation([MutationKeys.textToSpeech], {
+    mutationFn: (variables: FormData) => dataService.textToSpeech(variables),
+    ...(options || {}),
+  });
+};
+
+/* Text to speech voices */
+export const useVoicesMutation = (
+  options?: t.VoiceOptions,
+): UseMutationResult<
+  t.VoiceResponse, // response data
+  unknown, // error
+  unknown // context
+> => {
+  return useMutation([MutationKeys.voices], {
+    mutationFn: () => dataService.getVoices(),
+    ...(options || {}),
+  });
+};
+
 /**
  * ASSISTANTS
  */

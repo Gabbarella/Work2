@@ -506,6 +506,7 @@ export default {
   com_nav_setting_general: 'Generali',
   com_nav_setting_beta: 'Funzionalità beta',
   com_nav_setting_data: 'Controlli dati',
+  com_nav_setting_speech: 'Voce',
   com_nav_setting_account: 'Account',
   /* The following are AI Translated */
   com_ui_date_today: 'Oggi',

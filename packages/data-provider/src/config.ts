@@ -215,6 +215,52 @@ export const azureEndpointSchema = z
 export type TAzureConfig = Omit<z.infer<typeof azureEndpointSchema>, 'groups'> &
   TAzureConfigValidationResult;
 
+const ttsSchema = z.object({
+  openai: z
+    .object({
+      url: z.string().optional(),
+      apiKey: z.string(),
+      model: z.string(),
+      voices: z.array(z.string()),
+    })
+    .optional(),
+  elevenLabs: z
+    .object({
+      url: z.string().optional(),
+      apiKey: z.string(),
+      model: z.string(),
+      voices: z.array(z.string()),
+      voice_settings: z
+        .object({
+          similarity_boost: z.number().optional(),
+          stability: z.number().optional(),
+          style: z.number().optional(),
+          use_speaker_boost: z.boolean().optional(),
+        })
+        .optional(),
+      pronunciation_dictionary_locators: z.array(z.string()).optional(),
+    })
+    .optional(),
+  localai: z
+    .object({
+      url: z.string(),
+      apiKey: z.string().optional(),
+      voices: z.array(z.string()),
+      backend: z.string(),
+    })
+    .optional(),
+});
+
+const sttSchema = z.object({
+  openai: z
+    .object({
+      url: z.string().optional(),
+      apiKey: z.string().optional(),
+      model: z.string().optional(),
+    })
+    .optional(),
+});
+
 export const rateLimitSchema = z.object({
   fileUploads: z
     .object({
@@ -281,6 +327,8 @@ export const configSchema = z.object({
       allowedDomains: z.array(z.string()).optional(),
     })
     .default({ socialLogins: defaultSocialLogins }),
+  tts: ttsSchema.optional(),
+  stt: sttSchema.optional(),
   rateLimits: rateLimitSchema.optional(),
   fileConfig: fileConfigSchema.optional(),
   modelSpecs: specsConfigSchema.optional(),
@@ -661,6 +709,10 @@ export enum SettingsTabValues {
    * Tab for Messages Settings
    */
   MESSAGES = 'messages',
+  /**
+   * Tab for Speech Settings
+   */
+  SPEECH = 'speech',
   /**
    * Tab for Beta Features
    */

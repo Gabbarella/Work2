@@ -1,6 +1,6 @@
-import React from 'react';
+import { cn } from '~/utils/';
 
-export default function Clipboard() {
+export default function Clipboard({ className = 'icon-md-heavy', size = '1em' }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -8,7 +8,12 @@ export default function Clipboard() {
       height="24"
       fill="none"
       viewBox="0 0 24 24"
-      className="icon-md-heavy"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={cn(className)}
+      height={size}
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
     >
       <path
         fill="currentColor"

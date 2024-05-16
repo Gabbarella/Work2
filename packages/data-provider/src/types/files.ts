@@ -70,6 +70,18 @@ export type AvatarUploadResponse = {
   url: string;
 };
 
+export type SpeechToTextResponse = {
+  text: string;
+};
+
+export type TextToSpeechResponse = {
+  audio: ArrayBuffer;
+};
+
+export type VoiceResponse = {
+  voices: string[];
+};
+
 export type UploadMutationOptions = {
   onSuccess?: (data: TFileUpload, variables: FormData, context?: unknown) => void;
   onMutate?: (variables: FormData) => void | Promise<unknown>;
@@ -80,6 +92,24 @@ export type UploadAvatarOptions = {
   onSuccess?: (data: AvatarUploadResponse, variables: FormData, context?: unknown) => void;
   onMutate?: (variables: FormData) => void | Promise<unknown>;
   onError?: (error: unknown, variables: FormData, context?: unknown) => void;
+};
+
+export type SpeechToTextOptions = {
+  onSuccess?: (data: SpeechToTextResponse, variables: FormData, context?: unknown) => void;
+  onMutate?: (variables: FormData) => void | Promise<unknown>;
+  onError?: (error: unknown, variables: FormData, context?: unknown) => void;
+};
+
+export type TextToSpeechOptions = {
+  onSuccess?: (data: TextToSpeechResponse, variables: FormData, context?: unknown) => void;
+  onMutate?: (variables: FormData) => void | Promise<unknown>;
+  onError?: (error: unknown, variables: FormData, context?: unknown) => void;
+};
+
+export type VoiceOptions = {
+  onSuccess?: (data: VoiceResponse, variables: unknown, context?: unknown) => void;
+  onMutate?: () => void | Promise<unknown>;
+  onError?: (error: unknown, variables: unknown, context?: unknown) => void;
 };
 
 export type DeleteFilesResponse = {
