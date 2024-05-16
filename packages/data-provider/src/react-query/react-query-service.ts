@@ -60,6 +60,22 @@ export const useGetMessagesByConvoId = <TData = s.TMessage[]>(
   );
 };
 
+export const useGetSharedMessages = (
+  shareId: string,
+  config?: UseQueryOptions<t.TSharedMessagesResponse>,
+): QueryObserverResult<t.TSharedMessagesResponse> => {
+  return useQuery<t.TSharedMessagesResponse>(
+    [QueryKeys.sharedMessages, shareId],
+    () => dataService.getSharedMessages(shareId),
+    {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchOnMount: false,
+      ...config,
+    },
+  );
+};
+
 export const useGetUserBalance = (
   config?: UseQueryOptions<string>,
 ): QueryObserverResult<string> => {

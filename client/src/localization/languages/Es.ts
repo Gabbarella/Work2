@@ -137,6 +137,17 @@ export default {
   com_ui_assistants_output: 'Salida de Asistentes',
   com_ui_delete: 'Eliminar',
   com_ui_create: 'Crear',
+  com_ui_share: 'Share',
+  com_ui_share_link_to_chat: 'Share link to chat',
+  com_ui_share_error: 'There was an error sharing the chat link',
+  com_ui_share_create_message: 'Your name and any messages you add after sharing stay private.',
+  com_ui_share_created_message:
+    'A public link to your chat has been created. Manage previously shared chats at any time via Settings.',
+  com_ui_share_update_message:
+    'Your name, custom instructions, and any messages you add after sharing stay private.',
+  com_ui_share_updated_message:
+    'A public link to your chat has been updated. Manage previously shared chats at any time via Settings.',
+  com_ui_shared_link_not_found: 'Shared link not found',
   com_ui_delete_conversation: '¿Eliminar Chat?',
   com_ui_delete_conversation_confirm: 'Esto eliminará',
   com_ui_delete_assistant_confirm:
@@ -423,6 +434,12 @@ export default {
   com_nav_export_recursive_or_sequential: '¿Recursivo o secuencial?',
   com_nav_export_recursive: 'Recursivo',
   com_nav_export_conversation: 'Exportar conversación',
+  com_nav_export: 'Exportar',
+  com_nav_shared_links: 'Links Compartidos',
+  com_nav_shared_links_manage: 'Gerenciar',
+  com_nav_shared_links_empty: 'Você não tem nenhum link compartilhado.',
+  com_nav_shared_links_name: 'Nome',
+  com_nav_shared_links_date_shared: 'Data compartilhada',
   com_nav_my_files: 'Mis archivos',
   com_nav_theme: 'Tema',
   com_nav_theme_system: 'Sistema',
@@ -2068,6 +2085,10 @@ export const comparisons = {
   com_nav_export_conversation: {
     english: 'Export conversation',
     translated: 'Exportar conversación',
+  },
+  com_nav_export: {
+    english: 'Export',
+    translated: 'Exportar',
   },
   com_nav_my_files: {
     english: 'My Files',

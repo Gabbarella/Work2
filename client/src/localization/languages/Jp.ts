@@ -147,6 +147,18 @@ export default {
   com_ui_assistants_output: 'Assistantsの出力',
   com_ui_delete: '削除',
   com_ui_create: '作成',
+  com_ui_share: '共有',
+  com_ui_share_link_to_chat: 'チャットへの共有リンク',
+  com_ui_share_error: 'チャットの共有リンクの共有中にエラーが発生しました',
+  com_ui_share_create_message:
+    'あなたの名前と共有リンクを作成した後のメッセージは、共有されません。',
+  com_ui_share_created_message:
+    'チャットへの公開された共有リンクが作成されました。設定から以前共有したチャットを管理できます。',
+  com_ui_share_update_message:
+    'あなたの名前、カスタム指示、共有リンクを作成した後のメッセージは、共有されません。',
+  com_ui_share_updated_message:
+    'チャットへの公開された共有リンクが更新されました。設定から以前共有したチャットを管理できます。',
+  com_ui_shared_link_not_found: '共有リンクが見つかりません',
   com_ui_delete_conversation: 'チャットを削除しますか？',
   com_ui_delete_conversation_confirm: 'このチャットは削除されます。',
   com_ui_delete_assistant_confirm: 'このアシスタントを削除しますか？ この操作は元に戻せません。',
@@ -422,6 +434,12 @@ export default {
   com_nav_export_recursive_or_sequential: '再帰的? or 順次的?',
   com_nav_export_recursive: '再帰的',
   com_nav_export_conversation: '会話をエクスポートする',
+  com_nav_export: 'エクスポート',
+  com_nav_shared_links: '共有リンク',
+  com_nav_shared_links_manage: '管理',
+  com_nav_shared_links_empty: '共有リンクはありません。',
+  com_nav_shared_links_name: 'タイトル',
+  com_nav_shared_links_date_shared: '共有日',
   com_nav_my_files: 'My Files',
   com_nav_theme: 'テーマ',
   com_nav_theme_system: 'システム',
@@ -2086,6 +2104,10 @@ export const comparisons = {
   com_nav_export_conversation: {
     english: 'Export conversation',
     translated: '会話をエクスポートする',
+  },
+  com_nav_export: {
+    english: 'Export',
+    translated: 'エクスポート',
   },
   com_nav_my_files: {
     english: 'My Files',

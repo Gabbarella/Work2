@@ -50,6 +50,17 @@ export default {
   com_ui_import_conversation_error: '대화를 가져오는 동안 오류가 발생했습니다',
   com_ui_confirm_action: '작업 확인',
   com_ui_chats: '채팅',
+  com_ui_share: 'Share',
+  com_ui_share_link_to_chat: 'Share link to chat',
+  com_ui_share_error: 'There was an error sharing the chat link',
+  com_ui_share_create_message: 'Your name and any messages you add after sharing stay private.',
+  com_ui_share_created_message:
+    'A public link to your chat has been created. Manage previously shared chats at any time via Settings.',
+  com_ui_share_update_message:
+    'Your name, custom instructions, and any messages you add after sharing stay private.',
+  com_ui_share_updated_message:
+    'A public link to your chat has been updated. Manage previously shared chats at any time via Settings.',
+  com_ui_shared_link_not_found: 'Shared link not found',
   com_ui_delete: '삭제',
   com_ui_delete_conversation: '채팅을 삭제하시겠습니까?',
   com_ui_delete_conversation_confirm: '이 채팅이 삭제됩니다',
@@ -234,6 +245,12 @@ export default {
   com_nav_export_recursive_or_sequential: '재귀적 또는 순차적?',
   com_nav_export_recursive: '재귀적',
   com_nav_export_conversation: '대화 내보내기',
+  com_nav_export: '내보내기',
+  com_nav_shared_links: '공유 링크',
+  com_nav_shared_links_manage: '관리',
+  com_nav_shared_links_empty: '공유 링크가 없습니다.',
+  com_nav_shared_links_name: '이름',
+  com_nav_shared_links_date_shared: '공유 날짜',
   com_nav_theme: '테마',
   com_nav_theme_system: '시스템',
   com_nav_theme_dark: '다크',
@@ -1396,6 +1413,10 @@ export const comparisons = {
   com_nav_export_conversation: {
     english: 'Export conversation',
     translated: '대화 내보내기',
+  },
+  com_nav_export: {
+    english: 'Export',
+    translated: '내보내기',
   },
   com_nav_theme: {
     english: 'Theme',

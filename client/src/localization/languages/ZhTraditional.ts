@@ -50,6 +50,17 @@ export default {
   com_ui_import_conversation_error: '導入對話時發生錯誤',
   com_ui_confirm_action: '確認操作',
   com_ui_chats: '對話',
+  com_ui_share: 'Share',
+  com_ui_share_link_to_chat: 'Share link to chat',
+  com_ui_share_error: 'There was an error sharing the chat link',
+  com_ui_share_create_message: 'Your name and any messages you add after sharing stay private.',
+  com_ui_share_created_message:
+    'A public link to your chat has been created. Manage previously shared chats at any time via Settings.',
+  com_ui_share_update_message:
+    'Your name, custom instructions, and any messages you add after sharing stay private.',
+  com_ui_share_updated_message:
+    'A public link to your chat has been updated. Manage previously shared chats at any time via Settings.',
+  com_ui_shared_link_not_found: 'Shared link not found',
   com_ui_delete: '刪除',
   com_ui_delete_conversation: '刪除對話？',
   com_ui_delete_conversation_confirm: '這將刪除',
@@ -240,6 +251,12 @@ export default {
   com_nav_export_recursive_or_sequential: '遞迴還是序列？',
   com_nav_export_recursive: '遞迴',
   com_nav_export_conversation: '匯出對話',
+  com_nav_export: '匯出',
+  com_nav_shared_links: '共享連結',
+  com_nav_shared_links_manage: '管理',
+  com_nav_shared_links_empty: '您沒有任何共享連結。',
+  com_nav_shared_links_name: '名称',
+  com_nav_shared_links_date_shared: '共享日期',
   com_nav_theme: '主題',
   com_nav_theme_system: '跟隨系統設定',
   com_nav_theme_dark: '深色',
@@ -1426,6 +1443,10 @@ export const comparisons = {
   com_nav_export_conversation: {
     english: 'Export conversation',
     translated: '匯出對話',
+  },
+  com_nav_export: {
+    english: 'Export',
+    translated: '匯出',
   },
   com_nav_theme: {
     english: 'Theme',
